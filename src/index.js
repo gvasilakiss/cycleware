@@ -13,11 +13,11 @@ ReactDOM.render(
 
   <BrowserRouter>
     { /* Route components are rendered if the path prop matches the current URL */}
-    <Route exact path="/" render={(props) => <App {...props} />} />
+    <Route exact path="/" render={(props) => <Create {...props} />} />
     <Route exact path="/show/:id" render={(props) => <Show {...props} />} />
     <Route exact path="/edit/:id" render={(props) => <Edit {...props} />} />
-    <Route exact path="/create"><Create /></Route>
-    <Route exact path="/admin"><App /></Route>
+    <Route exact path="/create" render={(props) => <Create {...props} />} />
+    <Route exact path="/admin" render={(props) => <App {...props} />} />
   </BrowserRouter>
   ,
   document.getElementById('root')

@@ -18,7 +18,7 @@ class Login extends React.Component {
                 text: "Welcome, " + user.displayName,
                 icon: "success",
                 timer: 1500,
-                showConfirmButton: false
+                button: false
             });
 
             // Get user details

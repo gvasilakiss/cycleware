@@ -8,9 +8,11 @@ class Edit extends Component {
     super(props);
     this.state = {
       key: '',
-      title: '',
-      description: '',
-      url: ''
+      name: '',
+      desc: '',
+      fixed: '',
+      issue: '',
+      created_at: ''
     };
   }
 
@@ -24,7 +26,8 @@ class Edit extends Component {
           name: problema.name,
           desc: problema.desc,
           issue: problema.issue,
-          fixed: problema.fixed
+          isfixed: problema.fixed,
+          created_at: doc.data().created_at.toDate().toDateString()
         });
       } else {
         console.log("No such document!");
@@ -41,19 +44,23 @@ class Edit extends Component {
   onSubmit = (e) => {
     e.preventDefault();
 
-    const { title, description, url } = this.state;
+    const { name, desc, fixed, issue, created_at } = this.state;
 
-    const updateRef = firebase.firestore().collection('videos').doc(this.state.key);
+    const updateRef = firebase.firestore().collection('users').doc(this.state.key);
     updateRef.set({
-      title,
-      description,
-      url
+      name,
+      desc,
+      fixed,
+      issue,
+      created_at
     }).then((docRef) => {
       this.setState({
         key: '',
-        title: '',
-        description: '',
-        url: ''
+        name: '',
+        desc: '',
+        issue: '',
+        fixed: '',
+        created_at: this.docRef.data().created_at.toDate().toDateString()
       });
       this.props.history.push("/show/" + this.props.match.params.id)
     })
@@ -68,25 +75,35 @@ class Edit extends Component {
         <div className="panel panel-default">
           <div className="panel-heading">
             <h3 className="panel-title">
-              EDIT video
+              Update Cycleway Issue
             </h3>
           </div>
           <div className="panel-body">
-            <h4><Link to={`/show/${this.state.key}`} className="btn btn-primary">video List</Link></h4>
+            <h4><Link to={`/show/${this.state.key}`} className="btn btn-primary">Issues List</Link></h4>
             <form onSubmit={this.onSubmit}>
               <div className="form-group">
-                <label for="title">Title:</label>
-                <input type="text" className="form-control" name="title" value={this.state.title} onChange={this.onChange}
-                  placeholder="Title" />
+                <label htmlFor="name">Name:</label>
+                <input type="text" className="form-control" name="name" value={this.state.name} onChange={this.onChange}
+                  placeholder="name" />
               </div>
               <div className="form-group">
-                <label for="description">Description:</label>
-                <input type="text" className="form-control" name="description" value={this.state.description} onChange={this.onChange}
+                <label htmlFor="description">Description:</label>
+                <input type="text" className="form-control" name="description" value={this.state.desc} onChange={this.onChange}
                   placeholder="Description" />
               </div>
               <div className="form-group">
-                <label for="url">URL:</label>
+                <label htmlFor="issue">Issue:</label>
+                <input type="text" className="form-control" name="issue" value={this.state.issue} onChange={this.onChange}
+                  placeholder="url" />
+              </div>
+              <div className="form-group">
+                <label htmlFor="url">URL:</label>
                 <input type="text" className="form-control" name="url" value={this.state.url} onChange={this.onChange}
+                  placeholder="url" />
+              </div>
+              <div className="form-group">
+                <label htmlFor="url">Created at:</label>
+                <input type="text" className="form-control" name="url" disabled={true} value={this.state.created_at} onChange={this.onChange}
                   placeholder="url" />
               </div>
               <button type="submit" className="btn btn-success">Submit</button>

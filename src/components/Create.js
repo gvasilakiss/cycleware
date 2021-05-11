@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 //Import firebase
 import firebase from '../Firebase';
 import { Link } from 'react-router-dom';
-
 import swal from 'sweetalert';
 
 // Import boostrap CSS
@@ -22,6 +21,7 @@ if (window.location.hostname === "localhost") {
 class Create extends Component {
   constructor() {
     super();
+    this.getUpdate = this.getUpdate.bind(this);
     this.ref = firebase.firestore().collection('users');
     this.state = {
       name: '',
@@ -63,12 +63,61 @@ class Create extends Component {
         text: "Record ID: " + docRef.id,
         icon: "success",
         timer: 1700,
-        showConfirmButton: false
+        button: false
+      }).then(() => {
+        //redirect to admin page if authenticated user
+        var user = firebase.auth().currentUser;
+        if (window.location.pathname === "/create" && user) {
+          this.props.history.push("/admin")
+        }
+        else {
+
+        }
       });
-      this.props.history.push("/")
+
     })
       .catch((error) => {
         console.error("Error adding document: ", error);
+      });
+  }
+
+  // Update user for current status
+  getUpdate() {
+    swal("Enter the issue ID:", {
+      content: "input",
+    })
+      .then((inputID) => {
+        if (!inputID) {
+          swal(`No input has been entered`);
+        } else {
+          var docRef = db.collection("users").doc(inputID)
+          docRef.get().then((doc) => {
+            var status = doc.data().fixed
+            if (status === "False" && doc.exists) {
+              swal({
+                title: "Current Status: Work in Progress",
+                text: "Record ID: " + docRef.id,
+                icon: "info"
+              })
+            }
+            else {
+              swal({
+                title: "Current Status: Work Completed",
+                text: "Record ID: " + docRef.id,
+                icon: "success"
+              })
+            }
+
+            console.log("Current data: ", doc.data());
+          }).catch((error) => {
+            swal({
+              title: "ID was not found, check your input",
+              text: "Record ID: " + docRef.id,
+              icon: "warning"
+            })
+          })
+        }
+
       });
   }
 
@@ -80,11 +129,12 @@ class Create extends Component {
         <div className="panel panel-default">
           <div className="panel-heading">
             <h3 className="panel-title">
-              Create new issue
+              Log new issue
             </h3>
           </div>
           <div className="panel-body">
-            <h4><Link to="/" className="btn btn-primary">Issues List</Link></h4>
+            <h4><Link to="/admin" className="btn btn-primary">View Logs</Link></h4>
+            <h4><button onClick={this.getUpdate} className="btn btn-warning">Check log status</button></h4>
             <form onSubmit={this.onSubmit}>
               <div className="form-group">
                 <label htmlFor="title">Name:</label>
@@ -97,13 +147,13 @@ class Create extends Component {
               <div className="form-group">
                 <label htmlFor="issue">Issue:</label>
                 <select name="issue" className="form-control" required value={this.state.value} onChange={this.onChange} >
-                  <option disabled selected>Choose...</option>
+
                   <option value="Potholes">Potholes</option>
                   <option value="Graffiti">Graffiti</option>
                   <option value="Fly-Tipping">Fly-Tipping</option>
                   <option value="Cycle Route">Cycle Route Pothole</option>
                 </select>
-                {console.log(this.state.value)}
+                {/* console.log(this.state.value) */}
               </div>
               <input type="hidden" id="issue_status" name="issue_status" value={fixed} />
               <button type="submit" className="btn btn-success">Submit</button>
@@ -112,7 +162,6 @@ class Create extends Component {
         </div>
       </div>
     );
-
   }
 }
 

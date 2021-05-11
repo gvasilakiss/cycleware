@@ -4,6 +4,9 @@ import Login from "./login";
 import Admin from "./admin";
 import firebase from './Firebase';
 
+//Import alerts library
+import swal from 'sweetalert';
+
 class App extends Component {
 
   constructor(props) {
@@ -24,15 +27,22 @@ class App extends Component {
       if (user) {
         this.setState({ user });
       } else {
-        this.setState({ user: null });
+        swal({
+          title: "Ουπς, προμπλεμα",
+          text: "Πρεπει πρωτα να συνδεθεις ρε.. ",
+          icon: "error",
+          timer: 1500,
+          button: false
+        }).then(this.setState({ user: null }));
       }
     })
   }
 
   render() {
     return (
-
+      //If user is logged in redirect to admin page else to login
       <div className="App">
+        <br></br>
         { this.state.user ? (<Admin />) : (<Login />)}
       </div>
 

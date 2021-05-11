@@ -7,19 +7,20 @@ class Show extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      video: {},
+      issueLogged: {},
       key: ''
     };
   }
 
   componentDidMount() {
     console.log(this.props.match.params.id)
-    const ref = firebase.firestore().collection('videos').doc(this.props.match.params.id);
+    const ref = firebase.firestore().collection('users').doc(this.props.match.params.id);
     ref.get().then((doc) => {
       if (doc.exists) {
         this.setState({
-          video: doc.data(),
+          issueLogged: doc.data(),
           key: doc.id,
+          date: doc.data().created_at.toDate().toDateString(),
           isLoading: false
         });
       } else {
@@ -29,7 +30,7 @@ class Show extends Component {
   }
 
   delete(id) {
-    firebase.firestore().collection('videos').doc(id).delete().then(() => {
+    firebase.firestore().collection('users').doc(id).delete().then(() => {
       console.log("Document successfully deleted!");
       this.props.history.push("/")
     }).catch((error) => {
@@ -43,17 +44,23 @@ class Show extends Component {
       <div className="container">
         <div className="panel panel-default">
           <div className="panel-heading">
-            <h4><Link to="/">Issue List</Link></h4>
+            <h4><Link to="/admin">Issue List</Link></h4>
             <h3 className="panel-title">
-              {this.state.video.title}
+              {this.state.issueLogged.issue}
             </h3>
           </div>
           <div className="panel-body">
             <dl>
+              <dt>Name:</dt>
+              <dd>{this.state.issueLogged.name}</dd>
               <dt>Description:</dt>
-              <dd>{this.state.video.description}</dd>
-              <dt>url:</dt>
-              <dd>{this.state.video.url}</dd>
+              <dd>{this.state.issueLogged.desc}</dd>
+              <dt>Issue:</dt>
+              <dd>{this.state.issueLogged.issue}</dd>
+              <dt>Status:</dt>
+              <dd>{this.state.issueLogged.fixed}</dd>
+              <dt>Created:</dt>
+              <dd>{this.state.date}</dd>
             </dl>
             <Link to={`/edit/${this.state.key}`} className="btn btn-success">Edit</Link>&nbsp;
             <button onClick={this.delete.bind(this, this.state.key)} className="btn btn-danger">Delete</button>

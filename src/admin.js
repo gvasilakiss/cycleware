@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 
 import firebase from './Firebase';
 import Thumbnail from './components/Thumbnail';
+import swal from 'sweetalert';
 
 import { Switch, Route, Link } from "react-router-dom";
+
+const db = firebase.firestore();
 
 export default class App extends Component {
     constructor(props) {
@@ -42,7 +45,49 @@ export default class App extends Component {
     }
 
     logout() {
-        firebase.auth().signOut();
+        firebase.auth().signOut().then(() => {
+            window.location = '/';
+        });
+    }
+
+    // Update user for current status
+    getUpdate() {
+        swal("Enter the issue ID:", {
+            content: "input",
+        })
+            .then((inputID) => {
+                if (!inputID) {
+                    swal(`No input has been entered`);
+                } else {
+                    var docRef = db.collection("users").doc(inputID)
+                    docRef.get().then((doc) => {
+                        var status = doc.data().fixed
+                        if (status === "False" && doc.exists) {
+                            swal({
+                                title: "Current Status: Work in Progress",
+                                text: "Record ID: " + docRef.id,
+                                icon: "info"
+                            })
+                        }
+                        else {
+                            swal({
+                                title: "Current Status: Work Completed",
+                                text: "Record ID: " + docRef.id,
+                                icon: "success"
+                            })
+                        }
+
+                        console.log("Current data: ", doc.data());
+                    }).catch((error) => {
+                        swal({
+                            title: "ID was not found, check your input",
+                            text: "Record ID: " + docRef.id,
+                            icon: "warning"
+                        })
+                    })
+                }
+
+            });
     }
 
     render() {
@@ -57,6 +102,7 @@ export default class App extends Component {
                     </div>
                     <div className="panel-body">
                         <h4><Link to="/create" className="btn btn-primary">Create new Issue</Link></h4>
+                        <h4><button onClick={this.getUpdate} className="btn btn-warning">Check log status</button></h4>
                         <table className="table table-stripe">
                             <thead>
                                 <tr>
@@ -66,6 +112,7 @@ export default class App extends Component {
                                     <th>Is fixed</th>
                                     <th>Issue</th>
                                     <th>Created at</th>
+                                    <th>ID</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -78,6 +125,7 @@ export default class App extends Component {
                                         <td>{problema.fixed}</td>
                                         <td>{problema.issue}</td>
                                         <td>{problema.createdAt}</td>
+                                        <td>{problema.key}</td>
                                     </tr>
                                 )}
                             </tbody>
