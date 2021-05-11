@@ -6,16 +6,16 @@ class Thumbnail extends Component {
     super(props);
   }
 
- 
+
   render() {
 
     const thumbnailUrl = "https://img.youtube.com/vi/" + this.props.img + "/default.jpg";
-    console.log(this.props.img );
+    //console.log(this.props.img );
 
     return (
-       <img src={thumbnailUrl} alt="" /> 
+      <img src={thumbnailUrl} alt="" />
     )
-    }
+  }
 
 }
 

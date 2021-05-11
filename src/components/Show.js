@@ -43,7 +43,7 @@ class Show extends Component {
       <div className="container">
         <div className="panel panel-default">
           <div className="panel-heading">
-            <h4><Link to="/">video List</Link></h4>
+            <h4><Link to="/">Issue List</Link></h4>
             <h3 className="panel-title">
               {this.state.video.title}
             </h3>

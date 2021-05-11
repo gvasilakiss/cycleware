@@ -15,15 +15,16 @@ class Edit extends Component {
   }
 
   componentDidMount() {
-    const ref = firebase.firestore().collection('videos').doc(this.props.match.params.id);
+    const ref = firebase.firestore().collection('users').doc(this.props.match.params.id);
     ref.get().then((doc) => {
       if (doc.exists) {
-        const video = doc.data();
+        const problema = doc.data();
         this.setState({
           key: doc.id,
-          title: video.title,
-          description: video.description,
-          url: video.url
+          name: problema.name,
+          desc: problema.desc,
+          issue: problema.issue,
+          fixed: problema.fixed
         });
       } else {
         console.log("No such document!");
