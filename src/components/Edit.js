@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import firebase from '../Firebase';
 import { Link } from 'react-router-dom';
 
+import swal from 'sweetalert';
+
 var db = firebase.firestore();
 
 class Edit extends Component {
@@ -14,6 +16,7 @@ class Edit extends Component {
       desc: '',
       fixed: '',
       issue: '',
+      location: '',
       created_at: ''
     };
   }
@@ -30,6 +33,7 @@ class Edit extends Component {
           desc: problema.desc,
           issue: problema.issue,
           fixed: problema.fixed,
+          location: problema.location,
           created_at: date
         });
       } else {
@@ -47,14 +51,15 @@ class Edit extends Component {
   onSubmit = (e) => {
     e.preventDefault();
 
-    const { name, desc, fixed, issue } = this.state;
+    const { name, desc, fixed, issue, location } = this.state;
 
     const updateRef = db.collection('users').doc(this.state.key);
     updateRef.update({
       name,
       desc,
       fixed,
-      issue
+      issue,
+      location
     }).then((docRef) => {
       this.setState({
         key: '',
@@ -62,6 +67,7 @@ class Edit extends Component {
         desc: '',
         issue: '',
         fixed: '',
+        location: '',
         created_at: ''
       });
       this.props.history.push("/show/" + this.props.match.params.id)
@@ -92,6 +98,11 @@ class Edit extends Component {
                 <label htmlFor="description">Description:</label>
                 <input type="text" className="form-control" name="description" value={this.state.desc} onChange={this.onChange}
                   placeholder="Description" />
+              </div>
+              <div className="form-group">
+                <label htmlFor="location">Location:</label>
+                <input type="text" className="form-control" name="location" value={this.state.location} onChange={this.onChange}
+                  placeholder="Location" />
               </div>
               <div className="form-group">
                 <label htmlFor="issue">Issue:</label>

@@ -23,7 +23,7 @@ export default class App extends Component {
         querySnapshot.forEach((loggedIssue) => {
             // Convert timestamp to date
             const date = loggedIssue.data().created_at.toDate().toDateString();
-            const { name, issue, desc } = loggedIssue.data();
+            const { name, issue, desc, location } = loggedIssue.data();
             const createdAt = date;
             // Set status in table
             if (loggedIssue.data().fixed === "False") {
@@ -41,6 +41,7 @@ export default class App extends Component {
                 issue,
                 desc,
                 fixed,
+                location,
                 createdAt
             });
         });
@@ -119,6 +120,7 @@ export default class App extends Component {
                                     <th>Description</th>
                                     <th>Status</th>
                                     <th>Issue</th>
+                                    <th>location</th>
                                     <th>Created at</th>
                                     <th>ID</th>
                                 </tr>
@@ -131,6 +133,7 @@ export default class App extends Component {
                                         <td>{problema.desc}</td>
                                         <td>{problema.fixed}</td>
                                         <td>{problema.issue}</td>
+                                        <td>{problema.location}</td>
                                         <td>{problema.createdAt}</td>
                                         <td>{problema.key}</td>
                                     </tr>

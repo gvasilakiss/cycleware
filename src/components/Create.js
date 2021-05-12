@@ -29,6 +29,7 @@ class Create extends Component {
       desc: '',
       fixed: 'False',
       issue: '',
+      location: '',
       created_at: new Date()
     };
   }
@@ -43,20 +44,22 @@ class Create extends Component {
   // OnSubmit
   onSubmit = (e) => {
     e.preventDefault();
-    const { name, desc, fixed, issue, created_at } = this.state;
+    const { name, desc, fixed, issue, created_at, location } = this.state;
 
     this.ref.add({
       name,
       desc,
       fixed,
       issue,
-      created_at
+      created_at,
+      location
     }).then((docRef) => {
       this.setState({
         name: '',
         desc: '',
         fixed: 'False',
         issue: '',
+        location,
         created_at: new Date()
       });
       swal({
@@ -122,8 +125,12 @@ class Create extends Component {
       });
   }
 
+  geolocate() {
+
+  }
+
   render() {
-    const { name, desc, fixed, issue, created_at } = this.state;
+    const { name, desc, fixed, issue, created_at, location } = this.state;
 
     return (
       <div className="container">
@@ -139,11 +146,15 @@ class Create extends Component {
             <form onSubmit={this.onSubmit}>
               <div className="form-group">
                 <label htmlFor="title">Name:</label>
-                <input type="text" className="form-control" name="name" value={name} onChange={this.onChange} placeholder="Elon Musk" required />
+                <input type="text" className="form-control" name="name" value={name} onChange={this.onChange} placeholder="Elon Musk👽" required />
               </div>
               <div className="form-group">
                 <label htmlFor="title">Description of the issue:</label>
                 <input type="text" className="form-control" name="desc" value={desc} onChange={this.onChange} placeholder="Doge to the Moon🚀" required />
+              </div>
+              <div className="form-group">
+                <label htmlFor="location">Issue Location</label>
+                <input type="text" className="form-control" name="location" value={location} onChange={this.onChange} placeholder="Enter location🌍" required />
               </div>
               <div className="form-group">
                 <label htmlFor="issue">Issue:</label>
@@ -156,6 +167,7 @@ class Create extends Component {
                 </select>
                 {/* console.log(this.state.value) */}
               </div>
+
               <input type="hidden" id="issue_status" name="issue_status" value={fixed} />
               <button type="submit" className="btn btn-success">Submit</button>
             </form>

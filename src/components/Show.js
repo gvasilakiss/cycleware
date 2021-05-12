@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import firebase from '../Firebase';
 import { Link } from 'react-router-dom';
 
+import swal from 'sweetalert';
+
 var db = firebase.firestore();
 class Show extends Component {
 
@@ -63,6 +65,8 @@ class Show extends Component {
               <dd>{this.state.issueLogged.issue}</dd>
               <dt>Status:</dt>
               <dd>{this.state.issueLogged.fixed}</dd>
+              <dt>Location:</dt>
+              <dd>{this.state.issueLogged.location}</dd>
               <dt>Created:</dt>
               <dd>{this.state.date}</dd>
             </dl>
