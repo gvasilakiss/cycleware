@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import firebase from '../Firebase';
 import { Link } from 'react-router-dom';
 
+var db = firebase.firestore();
 class Show extends Component {
 
   constructor(props) {
@@ -16,11 +17,13 @@ class Show extends Component {
     console.log(this.props.match.params.id)
     const ref = firebase.firestore().collection('users').doc(this.props.match.params.id);
     ref.get().then((doc) => {
+      console.log(doc.data().created_at.toDate().toDateString());
+      const dateStamp = doc.data().created_at.toDate().toDateString();
       if (doc.exists) {
         this.setState({
           issueLogged: doc.data(),
           key: doc.id,
-          date: doc.data().created_at.toDate().toDateString(),
+          date: dateStamp,
           isLoading: false
         });
       } else {
@@ -44,7 +47,8 @@ class Show extends Component {
       <div className="container">
         <div className="panel panel-default">
           <div className="panel-heading">
-            <h4><Link to="/admin">Issue List</Link></h4>
+            <br />
+            <h4><Link to="/admin" className="btn btn-primary">Issue List</Link></h4>
             <h3 className="panel-title">
               {this.state.issueLogged.issue}
             </h3>

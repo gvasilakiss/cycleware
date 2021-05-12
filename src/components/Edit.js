@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import firebase from '../Firebase';
 import { Link } from 'react-router-dom';
 
+var db = firebase.firestore();
+
 class Edit extends Component {
 
   constructor(props) {
@@ -21,13 +23,14 @@ class Edit extends Component {
     ref.get().then((doc) => {
       if (doc.exists) {
         const problema = doc.data();
+        const date = doc.data().created_at.toDate().toDateString();
         this.setState({
           key: doc.id,
           name: problema.name,
           desc: problema.desc,
           issue: problema.issue,
-          isfixed: problema.fixed,
-          created_at: doc.data().created_at.toDate().toDateString()
+          fixed: problema.fixed,
+          created_at: date
         });
       } else {
         console.log("No such document!");
@@ -44,15 +47,14 @@ class Edit extends Component {
   onSubmit = (e) => {
     e.preventDefault();
 
-    const { name, desc, fixed, issue, created_at } = this.state;
+    const { name, desc, fixed, issue } = this.state;
 
-    const updateRef = firebase.firestore().collection('users').doc(this.state.key);
-    updateRef.set({
+    const updateRef = db.collection('users').doc(this.state.key);
+    updateRef.update({
       name,
       desc,
       fixed,
-      issue,
-      created_at
+      issue
     }).then((docRef) => {
       this.setState({
         key: '',
@@ -60,7 +62,7 @@ class Edit extends Component {
         desc: '',
         issue: '',
         fixed: '',
-        created_at: this.docRef.data().created_at.toDate().toDateString()
+        created_at: ''
       });
       this.props.history.push("/show/" + this.props.match.params.id)
     })
@@ -97,9 +99,9 @@ class Edit extends Component {
                   placeholder="url" />
               </div>
               <div className="form-group">
-                <label htmlFor="url">URL:</label>
-                <input type="text" className="form-control" name="url" value={this.state.url} onChange={this.onChange}
-                  placeholder="url" />
+                <label htmlFor="fixed">Fixed:</label>
+                <input type="text" className="form-control" name="fixed" value={this.state.fixed} onChange={this.onChange}
+                  placeholder="Status" />
               </div>
               <div className="form-group">
                 <label htmlFor="url">Created at:</label>

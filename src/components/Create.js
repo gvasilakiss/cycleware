@@ -8,11 +8,12 @@ import swal from 'sweetalert';
 // Import boostrap CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-// run on localhost server
-const auth = firebase.auth();
-const db = firebase.firestore();
 
 if (window.location.hostname === "localhost") {
+  // run on localhost server
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
   console.log("localhost detected!");
   auth.useEmulator("http://localhost:9099");
   db.useEmulator("localhost", 8080);
@@ -90,7 +91,7 @@ class Create extends Component {
         if (!inputID) {
           swal(`No input has been entered`);
         } else {
-          var docRef = db.collection("users").doc(inputID)
+          var docRef = firebase.collection("users").doc(inputID)
           docRef.get().then((doc) => {
             var status = doc.data().fixed
             if (status === "False" && doc.exists) {
@@ -108,7 +109,7 @@ class Create extends Component {
               })
             }
 
-            console.log("Current data: ", doc.data());
+
           }).catch((error) => {
             swal({
               title: "ID was not found, check your input",

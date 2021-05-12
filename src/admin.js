@@ -23,8 +23,17 @@ export default class App extends Component {
         querySnapshot.forEach((loggedIssue) => {
             // Convert timestamp to date
             const date = loggedIssue.data().created_at.toDate().toDateString();
-            const { name, issue, desc, fixed } = loggedIssue.data();
+            const { name, issue, desc } = loggedIssue.data();
             const createdAt = date;
+            // Set status in table
+            if (loggedIssue.data().fixed === "False") {
+                var fixed = 'Work in Progress';
+            } else if (loggedIssue.data().fixed === "True") {
+                fixed = 'Work Completed'
+            }
+            else {
+                fixed = "Unknown Status"
+            }
             issues.push({
                 key: loggedIssue.id,
                 loggedIssue, // DocumentSnapshot
@@ -106,10 +115,9 @@ export default class App extends Component {
                         <table className="table table-stripe">
                             <thead>
                                 <tr>
-                                    <th>Image</th>
                                     <th>Name</th>
                                     <th>Description</th>
-                                    <th>Is fixed</th>
+                                    <th>Status</th>
                                     <th>Issue</th>
                                     <th>Created at</th>
                                     <th>ID</th>
@@ -119,7 +127,6 @@ export default class App extends Component {
                                 {this.state.issues.map(problema =>
                                     <tr key={problema.key}>
 
-                                        <td><Link to={`/show/${problema.key}`}><Thumbnail img={problema.url} /></Link></td>
                                         <td><Link to={`/show/${problema.key}`}>{problema.name}</Link></td>
                                         <td>{problema.desc}</td>
                                         <td>{problema.fixed}</td>
