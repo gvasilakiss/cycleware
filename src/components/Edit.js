@@ -61,6 +61,13 @@ class Edit extends Component {
       issue,
       location
     }).then((docRef) => {
+      swal({
+        title: "Deleted record",
+        text: "Record ID: " + docRef.id,
+        icon: "success",
+        timer: 1700,
+        button: false
+      })
       this.setState({
         key: '',
         name: '',

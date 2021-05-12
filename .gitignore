@@ -52,4 +52,5 @@ build/Release
 # firebase cache
 .firebase
 
+.vscode
 

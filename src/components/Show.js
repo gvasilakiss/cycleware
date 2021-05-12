@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 import swal from 'sweetalert';
 
-var db = firebase.firestore();
 class Show extends Component {
 
   constructor(props) {
@@ -36,9 +35,21 @@ class Show extends Component {
 
   delete(id) {
     firebase.firestore().collection('users').doc(id).delete().then(() => {
-      console.log("Document successfully deleted!");
+      swal({
+        title: "Deleted record",
+        text: "Record ID: " + id,
+        icon: "success",
+        timer: 1700,
+        button: false
+      })
+      console.log("record successfully deleted!");
       this.props.history.push("/")
     }).catch((error) => {
+      swal({
+        title: "Error deleting record " + id,
+        text: "Error: " + error,
+        icon: "error"
+      })
       console.error("Error removing document: ", error);
     });
   }

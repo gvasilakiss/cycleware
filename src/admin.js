@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 
 import firebase from './Firebase';
-import Thumbnail from './components/Thumbnail';
 import swal from 'sweetalert';
 
-import { Switch, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const db = firebase.firestore();
 
@@ -87,7 +86,9 @@ export default class App extends Component {
                             })
                         }
 
-                        console.log("Current data: ", doc.data());
+                        // eslint-disable-next-line no-lone-blocks
+                        { /*console.log("Current data: ", doc.data()) */ }
+
                     }).catch((error) => {
                         swal({
                             title: "ID was not found, check your input",

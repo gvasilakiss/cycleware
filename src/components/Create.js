@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+
 //Import firebase
 import firebase from '../Firebase';
 import { Link } from 'react-router-dom';
@@ -8,11 +8,11 @@ import swal from 'sweetalert';
 // Import boostrap CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
+const db = firebase.firestore();
 if (window.location.hostname === "localhost") {
   // run on localhost server
   const auth = firebase.auth();
-  const db = firebase.firestore();
+
 
   console.log("localhost detected!");
   auth.useEmulator("http://localhost:9099");
@@ -94,7 +94,7 @@ class Create extends Component {
         if (!inputID) {
           swal(`No input has been entered`);
         } else {
-          var docRef = firebase.collection("users").doc(inputID)
+          var docRef = db.collection("users").doc(inputID)
           docRef.get().then((doc) => {
             var status = doc.data().fixed
             if (status === "False" && doc.exists) {
@@ -130,6 +130,7 @@ class Create extends Component {
   }
 
   render() {
+    // eslint-disable-next-line no-unused-vars
     const { name, desc, fixed, issue, created_at, location } = this.state;
 
     return (

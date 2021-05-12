@@ -7,7 +7,7 @@ import Create from "./components/Create";
 import Edit from "./components/Edit";
 import Show from "./components/Show";
 
-import { Switch, Route, Link } from "react-router-dom";
+import { Route } from "react-router-dom";
 
 ReactDOM.render(
 
