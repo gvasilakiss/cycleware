@@ -34,24 +34,47 @@ class Show extends Component {
   }
 
   delete(id) {
-    firebase.firestore().collection('users').doc(id).delete().then(() => {
-      swal({
-        title: "Deleted record",
-        text: "Record ID: " + id,
-        icon: "success",
-        timer: 1700,
-        button: false
-      })
-      console.log("record successfully deleted!");
-      this.props.history.push("/")
-    }).catch((error) => {
-      swal({
-        title: "Error deleting record " + id,
-        text: "Error: " + error,
-        icon: "error"
-      })
-      console.error("Error removing document: ", error);
-    });
+    swal("Do you want to delete this record?", {
+      icon: "warning",
+      buttons: {
+        Yes: "Delete",
+        No: {
+          text: "Cancel",
+          value: "catch",
+        }
+      },
+    })
+      .then((value) => {
+        switch (value) {
+          case "Yes":
+            firebase.firestore().collection('users').doc(id).delete().then(() => {
+              swal({
+                title: "Deleted record",
+                text: "Record ID: " + id,
+                icon: "success",
+                timer: 1700,
+                button: false
+              });
+              console.log("record successfully deleted!");
+              this.props.history.push("/")
+            }).catch((error) => {
+              swal({
+                title: "Error deleting record " + id,
+                text: "Error: " + error,
+                icon: "error"
+              })
+              console.error("Error removing document: ", error);
+            });
+            break;
+
+          case "No":
+            swal("Gotcha!", "Pikachu was caught!", "success");
+            break;
+
+          default:
+
+        }
+      });
   }
 
   render() {
@@ -81,7 +104,7 @@ class Show extends Component {
               <dt>Created:</dt>
               <dd>{this.state.date}</dd>
             </dl>
-            <Link to={`/edit/${this.state.key}`} className="btn btn-success">Edit</Link>&nbsp;
+            <Link to={`/edit/${this.state.key}`} className="btn btn-success">Update Details</Link>&nbsp;
             <button onClick={this.delete.bind(this, this.state.key)} className="btn btn-danger">Delete</button>
           </div>
         </div>

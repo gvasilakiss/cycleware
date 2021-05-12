@@ -62,10 +62,10 @@ class Edit extends Component {
       location
     }).then((docRef) => {
       swal({
-        title: "Deleted record",
-        text: "Record ID: " + docRef.id,
+        title: "Updated Record Successfully",
+        text: "Record ID: " + this.state.key,
         icon: "success",
-        timer: 1700,
+        timer: 2000,
         button: false
       })
       this.setState({

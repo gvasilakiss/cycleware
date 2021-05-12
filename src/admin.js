@@ -114,29 +114,30 @@ export default class App extends Component {
                     <div className="panel-body">
                         <h4><Link to="/create" className="btn btn-primary">Create new Issue</Link></h4>
                         <h4><button onClick={this.getUpdate} className="btn btn-warning">Check log status</button></h4>
-                        <table className="table table-stripe">
-                            <thead>
+                        <table className="table table-hover">
+                            <thead className="thead-dark">
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Description</th>
-                                    <th>Status</th>
-                                    <th>Issue</th>
-                                    <th>location</th>
-                                    <th>Created at</th>
-                                    <th>ID</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Issue</th>
+                                    <th scope="col">location</th>
+                                    <th scope="col">Created at</th>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">#</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {this.state.issues.map(problema =>
                                     <tr key={problema.key}>
-
-                                        <td><Link to={`/show/${problema.key}`}>{problema.name}</Link></td>
+                                        <th scope="row">{problema.issue}</th>
+                                        <td>{problema.name}</td>
                                         <td>{problema.desc}</td>
                                         <td>{problema.fixed}</td>
-                                        <td>{problema.issue}</td>
                                         <td>{problema.location}</td>
                                         <td>{problema.createdAt}</td>
                                         <td>{problema.key}</td>
+                                        <td><Link type="button" className="btn btn-info" to={`/show/${problema.key}`}>Edit</Link></td>
                                     </tr>
                                 )}
                             </tbody>
@@ -144,7 +145,7 @@ export default class App extends Component {
                     </div>
                 </div>
                 <div style={{ textAlign: 'center' }}>
-                    <button type="button" class="btn btn-primary" onClick={this.logout}>Log Out</button>
+                    <button type="button" className="btn btn-primary" onClick={this.logout}>Log Out</button>
                 </div>
             </div>
         );

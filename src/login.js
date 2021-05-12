@@ -31,7 +31,7 @@ class Login extends React.Component {
     render() {
         return (
             <div style={{ textAlign: 'center' }}>
-                <button type="button" class="btn btn-primary" onClick={this.login}>Log In</button>
+                <button type="button" className="btn btn-primary" onClick={this.login}>Log In</button>
             </div>
         )
     }
