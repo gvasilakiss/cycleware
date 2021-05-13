@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-
+import { Link } from 'react-router-dom';
 //Import firebase
 import firebase from '../Firebase';
-import { Link } from 'react-router-dom';
+
 import swal from 'sweetalert';
+
+import './index.css';
 
 // Import boostrap CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -12,7 +14,6 @@ const db = firebase.firestore();
 if (window.location.hostname === "localhost") {
   // run on localhost server
   const auth = firebase.auth();
-
 
   console.log("localhost detected!");
   auth.useEmulator("http://localhost:9099");
@@ -71,6 +72,7 @@ class Create extends Component {
       }).then(() => {
         //redirect to admin page if authenticated user
         var user = firebase.auth().currentUser;
+        console.log(user.exists);
         if (window.location.pathname === "/create" && user) {
           this.props.history.push("/admin")
         }
@@ -125,53 +127,51 @@ class Create extends Component {
       });
   }
 
-  geolocate() {
-
-  }
-
   render() {
     // eslint-disable-next-line no-unused-vars
     const { name, desc, fixed, issue, created_at, location } = this.state;
 
     return (
-      <div className="container">
-        <div className="panel panel-default">
-          <div className="panel-heading">
-            <h3 className="panel-title">
-              Log new issue
+      <div className="jumbotron vertical-center">
+        <div className="container">
+          <div className="panel panel-default">
+            <div className="panel-heading">
+              <h3 className="panel-title">
+                Log new issue
             </h3>
-          </div>
-          <div className="panel-body">
-            <h4><Link to="/admin" className="btn btn-primary">View Logs</Link></h4>
-            <h4><button onClick={this.getUpdate} className="btn btn-warning">Check log status</button></h4>
-            <form onSubmit={this.onSubmit}>
-              <div className="form-group">
-                <label htmlFor="title">Name:</label>
-                <input type="text" className="form-control" name="name" value={name} onChange={this.onChange} placeholder="Elon Musk👽" required />
-              </div>
-              <div className="form-group">
-                <label htmlFor="title">Description of the issue:</label>
-                <input type="text" className="form-control" name="desc" value={desc} onChange={this.onChange} placeholder="Doge to the Moon🚀" required />
-              </div>
-              <div className="form-group">
-                <label htmlFor="location">Issue Location</label>
-                <input type="text" className="form-control" name="location" value={location} onChange={this.onChange} placeholder="Enter location🌍" required />
-              </div>
-              <div className="form-group">
-                <label htmlFor="issue">Issue:</label>
-                <select name="issue" className="form-control" required value={this.state.value} onChange={this.onChange} >
+            </div>
+            <div className="panel-body">
+              <h4><Link to="/admin" className="btn btn-primary">View Logs</Link></h4>
+              <h4><button onClick={this.getUpdate} className="btn btn-warning">Check log status</button></h4>
+              <form onSubmit={this.onSubmit}>
+                <div className="form-group">
+                  <label htmlFor="title">Name:</label>
+                  <input type="text" className="form-control" name="name" value={name} onChange={this.onChange} placeholder="Elon Musk👽" required />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="title">Description of the issue:</label>
+                  <input type="text" className="form-control" name="desc" value={desc} onChange={this.onChange} placeholder="Doge to the Moon🚀" required />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="location">Issue Location</label>
+                  <input type="text" className="form-control" name="location" value={location} onChange={this.onChange} placeholder="Enter location🌍" required />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="issue">Issue:</label>
+                  <select name="issue" className="form-control" required value={this.state.value} onChange={this.onChange} >
 
-                  <option value="Potholes">Potholes</option>
-                  <option value="Graffiti">Graffiti</option>
-                  <option value="Fly-Tipping">Fly-Tipping</option>
-                  <option value="Cycle Route">Cycle Route Pothole</option>
-                </select>
-                {/* console.log(this.state.value) */}
-              </div>
+                    <option value="Potholes">Potholes</option>
+                    <option value="Graffiti">Graffiti</option>
+                    <option value="Fly-Tipping">Fly-Tipping</option>
+                    <option value="Cycle Route">Cycle Route Pothole</option>
+                  </select>
+                  {/* console.log(this.state.value) */}
+                </div>
 
-              <input type="hidden" id="issue_status" name="issue_status" value={fixed} />
-              <button type="submit" className="btn btn-success">Submit</button>
-            </form>
+                <input type="hidden" id="issue_status" name="issue_status" value={fixed} />
+                <button type="submit" className="btn btn-success">Submit</button>
+              </form>
+            </div>
           </div>
         </div>
       </div>

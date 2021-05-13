@@ -114,7 +114,7 @@ class Edit extends Component {
               <div className="form-group">
                 <label htmlFor="issue">Issue:</label>
                 <input type="text" className="form-control" name="issue" value={this.state.issue} onChange={this.onChange}
-                  placeholder="url" />
+                  placeholder="Issue" />
               </div>
               <div className="form-group">
                 <label htmlFor="fixed">Fixed:</label>
@@ -122,9 +122,9 @@ class Edit extends Component {
                   placeholder="Status" />
               </div>
               <div className="form-group">
-                <label htmlFor="url">Created at:</label>
-                <input type="text" className="form-control" name="url" disabled={true} value={this.state.created_at} onChange={this.onChange}
-                  placeholder="url" />
+                <label htmlFor="created_at">Created at:</label>
+                <input type="text" className="form-control" name="created_at" disabled={true} value={this.state.created_at} onChange={this.onChange}
+                  placeholder="created at" />
               </div>
               <button type="submit" className="btn btn-success">Submit</button>
             </form>

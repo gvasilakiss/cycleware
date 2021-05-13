@@ -55,8 +55,7 @@ class Show extends Component {
                 timer: 1700,
                 button: false
               });
-              console.log("record successfully deleted!");
-              this.props.history.push("/")
+              this.props.history.push("/admin")
             }).catch((error) => {
               swal({
                 title: "Error deleting record " + id,
@@ -84,9 +83,9 @@ class Show extends Component {
         <div className="panel panel-default">
           <div className="panel-heading">
             <br />
-            <h4><Link to="/admin" className="btn btn-primary">Issue List</Link></h4>
+            <h4><Link to="/admin" className="btn btn-primary">Back</Link></h4>
             <h3 className="panel-title">
-              {this.state.issueLogged.issue}
+              {this.state.issueLogged.issue} from {this.state.issueLogged.name} at {this.state.issueLogged.location}
             </h3>
           </div>
           <div className="panel-body">
