@@ -9,13 +9,18 @@ const db = firebase.firestore();
 
 export default class App extends Component {
     constructor(props) {
+        // Get current user
+        var user = firebase.auth().currentUser;
+
         super(props);
         this.ref = firebase.firestore().collection('users');
         this.unsubscribe = null;
+        this.user = user
         this.state = {
             issues: []
         };
     }
+
 
     onCollectionUpdate = (querySnapshot) => {
         const issues = [];
@@ -26,16 +31,16 @@ export default class App extends Component {
             const createdAt = date;
             // Set status in table
             if (loggedIssue.data().fixed === "False") {
-                var fixed = 'Work in Progress';
+                var fixed = 'Work in Progress⚒';
             } else if (loggedIssue.data().fixed === "True") {
-                fixed = 'Work Completed'
+                fixed = 'Work Completed💥'
             }
             else {
-                fixed = "Unknown Status"
+                fixed = "Unknown Status❌"
             }
             issues.push({
                 key: loggedIssue.id,
-                loggedIssue, // DocumentSnapshot
+                loggedIssue,
                 name,
                 issue,
                 desc,
@@ -73,15 +78,15 @@ export default class App extends Component {
                         var status = doc.data().fixed
                         if (status === "False" && doc.exists) {
                             swal({
-                                title: "Current Status: Work in Progress",
-                                text: "Record ID: " + docRef.id,
+                                title: "Current Status: Work in Progress⚒",
+                                text: "Record ID: " + doc.id,
                                 icon: "info"
                             })
                         }
                         else {
                             swal({
-                                title: "Current Status: Work Completed",
-                                text: "Record ID: " + docRef.id,
+                                title: "Current Status: Work Completed💥",
+                                text: "Record ID: " + doc.id,
                                 icon: "success"
                             })
                         }
@@ -91,7 +96,7 @@ export default class App extends Component {
 
                     }).catch((error) => {
                         swal({
-                            title: "ID was not found, check your input",
+                            title: "ID was not found, check your input👨‍💻",
                             text: "Record ID: " + docRef.id,
                             icon: "warning"
                         })
@@ -107,9 +112,10 @@ export default class App extends Component {
             <div className="container">
                 <div className="panel panel-default">
                     <div className="panel-heading">
-                        <h3 className="panel-title">
+                        <h4 className="text-center">Welcome back, {this.user.displayName}</h4>
+                        <h2 className="panel-title text-center">
                             Road Issues
-            </h3>
+            </h2>
                     </div>
                     <div className="panel-body">
                         <h4><Link to="/create" className="btn btn-primary">Create new Issue</Link></h4>
@@ -117,11 +123,11 @@ export default class App extends Component {
                         <table className="table table-hover">
                             <thead className="thead-dark">
                                 <tr>
+                                    <th scope="col">Issue</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Description</th>
                                     <th scope="col">Status</th>
-                                    <th scope="col">Issue</th>
-                                    <th scope="col">location</th>
+                                    <th scope="col">Location</th>
                                     <th scope="col">Created at</th>
                                     <th scope="col">ID</th>
                                     <th scope="col">#</th>
@@ -136,7 +142,7 @@ export default class App extends Component {
                                         <td>{problema.fixed}</td>
                                         <td>{problema.location}</td>
                                         <td>{problema.createdAt}</td>
-                                        <td>{problema.key}</td>
+                                        <td type="button" onClick={() => { navigator.clipboard.writeText(problema.key) }}>{problema.key}</td>
                                         <td><Link type="button" className="btn btn-info" to={`/show/${problema.key}`}>Edit</Link></td>
                                     </tr>
                                 )}

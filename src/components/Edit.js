@@ -30,8 +30,8 @@ class Edit extends Component {
         this.setState({
           key: doc.id,
           name: problema.name,
-          desc: problema.desc,
           issue: problema.issue,
+          desc: problema.desc,
           fixed: problema.fixed,
           location: problema.location,
           created_at: date
@@ -45,7 +45,7 @@ class Edit extends Component {
   onChange = (e) => {
     const state = this.state
     state[e.target.name] = e.target.value;
-    this.setState({ video: state });
+    this.setState({ value: e.target.value })
   }
 
   onSubmit = (e) => {
@@ -53,35 +53,45 @@ class Edit extends Component {
 
     const { name, desc, fixed, issue, location } = this.state;
 
-    const updateRef = db.collection('users').doc(this.state.key);
-    updateRef.update({
-      name,
-      desc,
-      fixed,
-      issue,
-      location
-    }).then((docRef) => {
+    if (!fixed.match("True") || !fixed.match("False")) {
       swal({
-        title: "Updated Record Successfully",
-        text: "Record ID: " + this.state.key,
-        icon: "success",
-        timer: 2000,
+        title: "Wrong input!",
+        text: "Issue status can be either True or False.",
+        icon: "warning",
+        timer: 2500,
         button: false
       })
-      this.setState({
-        key: '',
-        name: '',
-        desc: '',
-        issue: '',
-        fixed: '',
-        location: '',
-        created_at: ''
-      });
-      this.props.history.push("/show/" + this.props.match.params.id)
-    })
-      .catch((error) => {
-        console.error("Error adding document: ", error);
-      });
+    } else {
+      const updateRef = db.collection('users').doc(this.state.key);
+      updateRef.update({
+        name,
+        desc,
+        fixed,
+        issue,
+        location
+      }).then((docRef) => {
+        swal({
+          title: "Updated Record Successfully",
+          text: "Record ID: " + this.state.key,
+          icon: "success",
+          timer: 2000,
+          button: false
+        })
+        this.setState({
+          key: '',
+          name: '',
+          desc: '',
+          issue: '',
+          fixed: '',
+          location: '',
+          created_at: ''
+        });
+        this.props.history.push("/show/" + this.props.match.params.id)
+      })
+        .catch((error) => {
+          console.error("Error adding document: ", error);
+        });
+    }
   }
 
   render() {
@@ -89,12 +99,13 @@ class Edit extends Component {
       <div className="container">
         <div className="panel panel-default">
           <div className="panel-heading">
+            <br />
+            <h4><Link to={`/show/${this.state.key}`} className="btn btn-primary">Back</Link></h4>
             <h3 className="panel-title">
               Update Cycleway Issue
             </h3>
           </div>
           <div className="panel-body">
-            <h4><Link to={`/show/${this.state.key}`} className="btn btn-primary">Issues List</Link></h4>
             <form onSubmit={this.onSubmit}>
               <div className="form-group">
                 <label htmlFor="name">Name:</label>
@@ -103,7 +114,7 @@ class Edit extends Component {
               </div>
               <div className="form-group">
                 <label htmlFor="description">Description:</label>
-                <input type="text" className="form-control" name="description" value={this.state.desc} onChange={this.onChange}
+                <input type="text" className="form-control" name="desc" value={this.state.desc} onChange={this.onChange}
                   placeholder="Description" />
               </div>
               <div className="form-group">

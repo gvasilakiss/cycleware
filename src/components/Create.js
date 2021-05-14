@@ -7,9 +7,6 @@ import swal from 'sweetalert';
 
 import './index.css';
 
-// Import boostrap CSS
-import 'bootstrap/dist/css/bootstrap.min.css';
-
 const db = firebase.firestore();
 if (window.location.hostname === "localhost") {
   // run on localhost server
@@ -19,6 +16,19 @@ if (window.location.hostname === "localhost") {
   auth.useEmulator("http://localhost:9099");
   db.useEmulator("localhost", 8080);
 }
+
+firebase.firestore().enablePersistence()
+  .catch((err) => {
+    if (err.code === 'failed-precondition') {
+      // Multiple tabs open, persistence can only be enabled
+      // in one tab at a a time.
+      // ...
+    } else if (err.code === 'unimplemented') {
+      // The current browser does not support all of the
+      // features required to enable persistence
+      // ...
+    }
+  });
 
 class Create extends Component {
   constructor() {
@@ -47,44 +57,61 @@ class Create extends Component {
     e.preventDefault();
     const { name, desc, fixed, issue, created_at, location } = this.state;
 
-    this.ref.add({
-      name,
-      desc,
-      fixed,
-      issue,
-      created_at,
-      location
-    }).then((docRef) => {
-      this.setState({
-        name: '',
-        desc: '',
-        fixed: 'False',
-        issue: '',
-        location,
-        created_at: new Date()
-      });
+    console.log(issue);
+
+    if (issue.length === 0) {
       swal({
-        title: "Created new Record!",
-        text: "Record ID: " + docRef.id,
-        icon: "success",
-        timer: 1700,
+        title: "Missing Input",
+        text: "You need to select an valid issue",
+        icon: "warning",
+        timer: 2000,
         button: false
-      }).then(() => {
-        //redirect to admin page if authenticated user
-        var user = firebase.auth().currentUser;
-        console.log(user.exists);
-        if (window.location.pathname === "/create" && user) {
-          this.props.history.push("/admin")
-        }
-        else {
+      })
+    } else {
+      this.ref.add({
+        name,
+        desc,
+        fixed,
+        issue,
+        created_at,
+        location
+      }).then((docRef) => {
+        this.setState({
+          name: '',
+          desc: '',
+          fixed: 'False',
+          issue: '',
+          location,
+          created_at: new Date()
+        });
+        swal({
+          title: "Created new Record!",
+          text: "Record ID: " + docRef.id,
+          icon: "success",
+          timer: 1700,
+          button: false
+        }).then(() => {
+          //redirect to admin page if authenticated user
+          var user = firebase.auth().currentUser;
+          if (window.location.pathname === "/create" && user) {
+            this.props.history.push("/admin")
+          }
+          else {
 
-        }
-      });
+          }
+        });
 
-    })
-      .catch((error) => {
-        console.error("Error adding document: ", error);
-      });
+      })
+        .catch((error) => {
+          swal({
+            title: "Oups, seems we couldn't log that, try again.",
+            text: "Error: " + error,
+            icon: "error",
+            timer: 1700,
+            button: false
+          });
+        });
+    }
   }
 
   // Update user for current status

@@ -54,3 +54,4 @@ build/Release
 
 .vscode
 
+workbox-config.js

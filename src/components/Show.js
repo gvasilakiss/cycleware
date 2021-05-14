@@ -38,10 +38,7 @@ class Show extends Component {
       icon: "warning",
       buttons: {
         Yes: "Delete",
-        No: {
-          text: "Cancel",
-          value: "catch",
-        }
+        No: "Cancel"
       },
     })
       .then((value) => {
@@ -66,10 +63,6 @@ class Show extends Component {
             });
             break;
 
-          case "No":
-            swal("Gotcha!", "Pikachu was caught!", "success");
-            break;
-
           default:
 
         }
@@ -89,20 +82,38 @@ class Show extends Component {
             </h3>
           </div>
           <div className="panel-body">
-            <dl>
-              <dt>Name:</dt>
-              <dd>{this.state.issueLogged.name}</dd>
-              <dt>Description:</dt>
-              <dd>{this.state.issueLogged.desc}</dd>
-              <dt>Issue:</dt>
-              <dd>{this.state.issueLogged.issue}</dd>
-              <dt>Status:</dt>
-              <dd>{this.state.issueLogged.fixed}</dd>
-              <dt>Location:</dt>
-              <dd>{this.state.issueLogged.location}</dd>
-              <dt>Created:</dt>
-              <dd>{this.state.date}</dd>
-            </dl>
+            <form>
+              <div className="form-group">
+                <label htmlFor="name">Name:</label>
+                <input type="text" className="form-control" name="name" disabled={true} value={this.state.issueLogged.name}
+                  placeholder="name" />
+              </div>
+              <div className="form-group">
+                <label htmlFor="description">Description:</label>
+                <input type="text" className="form-control" name="description" disabled={true} value={this.state.issueLogged.desc}
+                  placeholder="Description" />
+              </div>
+              <div className="form-group">
+                <label htmlFor="location">Location:</label>
+                <input type="text" className="form-control" name="location" disabled={true} value={this.state.issueLogged.location}
+                  placeholder="Location" />
+              </div>
+              <div className="form-group">
+                <label htmlFor="issue">Issue:</label>
+                <input type="text" className="form-control" name="issue" disabled={true} value={this.state.issueLogged.issue}
+                  placeholder="Issue" />
+              </div>
+              <div className="form-group">
+                <label htmlFor="fixed">Fixed:</label>
+                <input type="text" className="form-control" name="fixed" disabled={true} value={this.state.issueLogged.fixed}
+                  placeholder="Status" />
+              </div>
+              <div className="form-group">
+                <label htmlFor="created_at">Created at:</label>
+                <input type="text" className="form-control" name="created_at" disabled={true} value={this.state.date}
+                  placeholder="created at" />
+              </div>
+            </form>
             <Link to={`/edit/${this.state.key}`} className="btn btn-success">Update Details</Link>&nbsp;
             <button onClick={this.delete.bind(this, this.state.key)} className="btn btn-danger">Delete</button>
           </div>
