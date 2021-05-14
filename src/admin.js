@@ -112,6 +112,8 @@ export default class App extends Component {
             <div className="container">
                 <div className="panel panel-default">
                     <div className="panel-heading">
+                        <h2 className="text-center">Cycleware🚴‍♂️ - See it, report it. </h2>
+                        <hr class="my-4" />
                         <div className="d-flex">
                             <h5 className="text-center">Welcome back, <span id="user"> {this.user.displayName}</span></h5>
                             <div className="ml-auto p-2">
@@ -146,7 +148,7 @@ export default class App extends Component {
                             </thead>
                             <tbody>
                                 {this.state.issues.map(problema =>
-                                    <tr >
+                                    <tr key={problema.key}>
                                         <th scope="row">{problema.issue}</th>
                                         <td>{problema.name}</td>
                                         <td>{problema.desc}</td>

@@ -163,13 +163,15 @@ class Create extends Component {
         <div className="container">
           <div className="panel panel-default">
             <div className="panel-heading">
+              <h2 className="text-center">Cycleware🚴‍♂️ - See it, report it. </h2>
               <div className="d-flex">
+
                 <div className="ml-auto p-2">
                   <h4><Link to="/admin" className="btn btn-primary">Admin Portal</Link></h4>
                 </div>
               </div>
               <h3 className="panel-title">
-                Log new issue
+                Log New Issue
             </h3>
             </div>
             <div className="panel-body">
