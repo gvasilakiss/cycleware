@@ -117,7 +117,7 @@ export default class App extends Component {
                         <div className="d-flex">
                             <h5 className="text-center">Welcome back, <span id="user"> {this.user.displayName}</span></h5>
                             <div className="ml-auto p-2">
-                                <button type="button" className="btn btn-primary" onClick={this.logout}>Log Out</button>
+                                <button type="button" className="btn btn-dark" onClick={this.logout}>Log Out</button>
                             </div>
                         </div>
 
@@ -128,7 +128,7 @@ export default class App extends Component {
                     </div>
                     <div className="panel-body">
                         <div className="btn-group mr-2" role="group" aria-label="Third group">
-                            <h4><Link to="/create" className="btn btn-primary">Create new Issue</Link></h4>
+                            <h4><Link to="/create" className="btn btn-primary">Report new Issue</Link></h4>
                         </div>
                         <div className="btn-group" role="group" aria-label="Third group">
                             <h4><button onClick={this.getUpdate} className="btn btn-warning">Check log status</button></h4>

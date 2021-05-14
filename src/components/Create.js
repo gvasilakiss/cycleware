@@ -61,8 +61,8 @@ class Create extends Component {
 
     if (issue.length === 0) {
       swal({
-        title: "Missing Input",
-        text: "You need to select an valid issue",
+        title: "Missing Input✍",
+        text: "You need to select an valid issue⚒",
         icon: "warning",
         timer: 2000,
         button: false
@@ -85,7 +85,7 @@ class Create extends Component {
           created_at: new Date()
         });
         swal({
-          title: "Created new Record!",
+          title: "Issue has been recorded🚀",
           text: "Record ID: " + docRef.id,
           icon: "success",
           timer: 1700,
@@ -121,21 +121,21 @@ class Create extends Component {
     })
       .then((inputID) => {
         if (!inputID) {
-          swal(`No input has been entered`);
+          swal(`No input has been entered✍`);
         } else {
           var docRef = db.collection("users").doc(inputID)
           docRef.get().then((doc) => {
             var status = doc.data().fixed
             if (status === "False" && doc.exists) {
               swal({
-                title: "Current Status: Work in Progress",
+                title: "Current Status: Work in Progress⚒",
                 text: "Record ID: " + docRef.id,
                 icon: "info"
               })
             }
             else {
               swal({
-                title: "Current Status: Work Completed",
+                title: "Current Status: Work Completed💥",
                 text: "Record ID: " + docRef.id,
                 icon: "success"
               })
@@ -144,7 +144,7 @@ class Create extends Component {
 
           }).catch((error) => {
             swal({
-              title: "ID was not found, check your input",
+              title: "ID was not found, check your input❌",
               text: "Record ID: " + docRef.id,
               icon: "warning"
             })
@@ -164,6 +164,7 @@ class Create extends Component {
           <div className="panel panel-default">
             <div className="panel-heading">
               <h2 className="text-center">Cycleware🚴‍♂️ - See it, report it. </h2>
+              <hr class="my-4" />
               <div className="d-flex">
 
                 <div className="ml-auto p-2">

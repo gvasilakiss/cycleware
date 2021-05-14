@@ -13,8 +13,8 @@ class Login extends React.Component {
             console.log("logged in as: " + res.user.email);
             let user = res.user;
             swal({
-                title: "Successful Login!",
-                text: "Welcome, " + user.displayName,
+                title: "Successful Login🚀",
+                text: "Welcome, " + user.displayName + "👽",
                 icon: "success",
                 timer: 1500,
                 button: false
@@ -31,7 +31,7 @@ class Login extends React.Component {
     render() {
         return (
             <div id="vertical-center" className="grid">
-                <button type="button" className="btn btn-primary" onClick={this.login}>Log In</button>
+                <button type="button" className="btn btn-danger" onClick={this.login}>Log In</button>
             </div>
         )
     }
