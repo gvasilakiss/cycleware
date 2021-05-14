@@ -124,11 +124,11 @@ export default class App extends Component {
                         <div>
 
                         </div>
-                        <h2 className="panel-title text-center">Road Issues</h2>
+                        <h2 className="panel-title text-center">Cycleway Reported Issues🚧</h2>
                     </div>
                     <div className="panel-body">
                         <div className="btn-group mr-2" role="group" aria-label="Third group">
-                            <h4><Link to="/create" className="btn btn-primary">Report new Issue</Link></h4>
+                            <h4><Link to="/create" className="btn btn-primary">Report new issue</Link></h4>
                         </div>
                         <div className="btn-group" role="group" aria-label="Third group">
                             <h4><button onClick={this.getUpdate} className="btn btn-warning">Check log status</button></h4>
