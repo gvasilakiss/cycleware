@@ -112,15 +112,26 @@ export default class App extends Component {
             <div className="container">
                 <div className="panel panel-default">
                     <div className="panel-heading">
-                        <h4 className="text-center">Welcome back, {this.user.displayName}</h4>
-                        <h2 className="panel-title text-center">
-                            Road Issues
-            </h2>
+                        <div className="d-flex">
+                            <h5 className="text-center">Welcome back, <span id="user"> {this.user.displayName}</span></h5>
+                            <div className="ml-auto p-2">
+                                <button type="button" className="btn btn-primary" onClick={this.logout}>Log Out</button>
+                            </div>
+                        </div>
+
+                        <div>
+
+                        </div>
+                        <h2 className="panel-title text-center">Road Issues</h2>
                     </div>
                     <div className="panel-body">
-                        <h4><Link to="/create" className="btn btn-primary">Create new Issue</Link></h4>
-                        <h4><button onClick={this.getUpdate} className="btn btn-warning">Check log status</button></h4>
-                        <table className="table table-hover">
+                        <div className="btn-group mr-2" role="group" aria-label="Third group">
+                            <h4><Link to="/create" className="btn btn-primary">Create new Issue</Link></h4>
+                        </div>
+                        <div className="btn-group" role="group" aria-label="Third group">
+                            <h4><button onClick={this.getUpdate} className="btn btn-warning">Check log status</button></h4>
+                        </div>
+                        <table className="table table-striped table-hover">
                             <thead className="thead-dark">
                                 <tr>
                                     <th scope="col">Issue</th>
@@ -135,7 +146,7 @@ export default class App extends Component {
                             </thead>
                             <tbody>
                                 {this.state.issues.map(problema =>
-                                    <tr key={problema.key}>
+                                    <tr >
                                         <th scope="row">{problema.issue}</th>
                                         <td>{problema.name}</td>
                                         <td>{problema.desc}</td>
@@ -149,9 +160,6 @@ export default class App extends Component {
                             </tbody>
                         </table>
                     </div>
-                </div>
-                <div style={{ textAlign: 'center' }}>
-                    <button type="button" className="btn btn-primary" onClick={this.logout}>Log Out</button>
                 </div>
             </div>
         );

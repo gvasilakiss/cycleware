@@ -15,22 +15,41 @@ class Show extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.match.params.id)
-    const ref = firebase.firestore().collection('users').doc(this.props.match.params.id);
-    ref.get().then((doc) => {
-      console.log(doc.data().created_at.toDate().toDateString());
-      const dateStamp = doc.data().created_at.toDate().toDateString();
-      if (doc.exists) {
-        this.setState({
-          issueLogged: doc.data(),
-          key: doc.id,
-          date: dateStamp,
-          isLoading: false
+    this.authListener();
+    //console.log(this.props.match.params.id)
+
+  }
+
+  // Check if user is logged in
+  authListener() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        console.log(user);
+        const ref = firebase.firestore().collection('users').doc(this.props.match.params.id);
+        ref.get().then((doc) => {
+          //console.log(doc.data().created_at.toDate().toDateString());
+          const dateStamp = doc.data().created_at.toDate().toDateString();
+          if (doc.exists) {
+            this.setState({
+              issueLogged: doc.data(),
+              key: doc.id,
+              date: dateStamp,
+              isLoading: false
+            });
+          } else {
+            console.log("No such document!");
+          }
         });
       } else {
-        console.log("No such document!");
+        swal({
+          title: "Ουπς, προμπλεμα",
+          text: "Πρεπει πρωτα να συνδεθεις ρε.. ",
+          icon: "error",
+          timer: 1500,
+          button: false
+        }).then(this.props.history.push("/admin"));
       }
-    });
+    })
   }
 
   delete(id) {

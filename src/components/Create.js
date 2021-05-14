@@ -159,17 +159,23 @@ class Create extends Component {
     const { name, desc, fixed, issue, created_at, location } = this.state;
 
     return (
-      <div className="jumbotron vertical-center">
+      <div id="vertical-center" className="jumbotron">
         <div className="container">
           <div className="panel panel-default">
             <div className="panel-heading">
+              <div className="d-flex">
+                <div className="ml-auto p-2">
+                  <h4><Link to="/admin" className="btn btn-primary">Admin Portal</Link></h4>
+                </div>
+              </div>
               <h3 className="panel-title">
                 Log new issue
             </h3>
             </div>
             <div className="panel-body">
-              <h4><Link to="/admin" className="btn btn-primary">View Logs</Link></h4>
-              <h4><button onClick={this.getUpdate} className="btn btn-warning">Check log status</button></h4>
+              <div className="btn-group" role="group" aria-label="Third group">
+                <h4><button onClick={this.getUpdate} className="btn btn-warning">Check log status</button></h4>
+              </div>
               <form onSubmit={this.onSubmit}>
                 <div className="form-group">
                   <label htmlFor="title">Name:</label>

@@ -30,27 +30,8 @@ class Login extends React.Component {
     }
     render() {
         return (
-            <div className="grid">
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <button type="button" id="verticalButton" className="btn btn-primary" onClick={this.login}>Log In</button>
+            <div id="vertical-center" className="grid">
+                <button type="button" className="btn btn-primary" onClick={this.login}>Log In</button>
             </div>
         )
     }

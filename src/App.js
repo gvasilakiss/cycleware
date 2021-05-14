@@ -3,10 +3,6 @@ import React, { Component } from 'react';
 import Login from "./login";
 import Admin from "./admin";
 import firebase from './Firebase';
-
-//Import alerts library
-import swal from 'sweetalert';
-
 class App extends Component {
 
   constructor(props) {
@@ -26,14 +22,6 @@ class App extends Component {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.setState({ user });
-      } else {
-        swal({
-          title: "Ουπς, προμπλεμα",
-          text: "Πρεπει πρωτα να συνδεθεις ρε.. ",
-          icon: "error",
-          timer: 1500,
-          button: false
-        }).then(this.setState({ user: null }));
       }
     })
   }

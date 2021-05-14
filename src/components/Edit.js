@@ -22,24 +22,40 @@ class Edit extends Component {
   }
 
   componentDidMount() {
-    const ref = firebase.firestore().collection('users').doc(this.props.match.params.id);
-    ref.get().then((doc) => {
-      if (doc.exists) {
-        const problema = doc.data();
-        const date = doc.data().created_at.toDate().toDateString();
-        this.setState({
-          key: doc.id,
-          name: problema.name,
-          issue: problema.issue,
-          desc: problema.desc,
-          fixed: problema.fixed,
-          location: problema.location,
-          created_at: date
+    this.authListener();
+  }
+
+  authListener() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        const ref = firebase.firestore().collection('users').doc(this.props.match.params.id);
+        ref.get().then((doc) => {
+          if (doc.exists) {
+            const problema = doc.data();
+            const date = doc.data().created_at.toDate().toDateString();
+            this.setState({
+              key: doc.id,
+              name: problema.name,
+              issue: problema.issue,
+              desc: problema.desc,
+              fixed: problema.fixed,
+              location: problema.location,
+              created_at: date
+            });
+          } else {
+            console.log("No such document!");
+          }
         });
       } else {
-        console.log("No such document!");
+        swal({
+          title: "Ουπς, προμπλεμα",
+          text: "Πρεπει πρωτα να συνδεθεις ρε.. ",
+          icon: "error",
+          timer: 1500,
+          button: false
+        }).then(this.props.history.push("/admin"));
       }
-    });
+    })
   }
 
   onChange = (e) => {
@@ -53,45 +69,35 @@ class Edit extends Component {
 
     const { name, desc, fixed, issue, location } = this.state;
 
-    if (!fixed.match("True") || !fixed.match("False")) {
+    const updateRef = db.collection('users').doc(this.state.key);
+    updateRef.update({
+      name,
+      desc,
+      fixed,
+      issue,
+      location
+    }).then((docRef) => {
       swal({
-        title: "Wrong input!",
-        text: "Issue status can be either True or False.",
-        icon: "warning",
-        timer: 2500,
+        title: "Updated Record Successfully",
+        text: "Record ID: " + this.state.key,
+        icon: "success",
+        timer: 2000,
         button: false
       })
-    } else {
-      const updateRef = db.collection('users').doc(this.state.key);
-      updateRef.update({
-        name,
-        desc,
-        fixed,
-        issue,
-        location
-      }).then((docRef) => {
-        swal({
-          title: "Updated Record Successfully",
-          text: "Record ID: " + this.state.key,
-          icon: "success",
-          timer: 2000,
-          button: false
-        })
-        this.setState({
-          key: '',
-          name: '',
-          desc: '',
-          issue: '',
-          fixed: '',
-          location: '',
-          created_at: ''
-        });
-        this.props.history.push("/show/" + this.props.match.params.id)
-      })
-        .catch((error) => {
-          console.error("Error adding document: ", error);
-        });
-    }
+      this.setState({
+        key: '',
+        name: '',
+        desc: '',
+        issue: '',
+        fixed: '',
+        location: '',
+        created_at: ''
+      });
+      this.props.history.push("/show/" + this.props.match.params.id)
+    })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
+      });
   }
 
   render() {
