@@ -24,7 +24,7 @@ class Show extends Component {
   authListener() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        console.log(user);
+        //console.log(user);
         const ref = firebase.firestore().collection('users').doc(this.props.match.params.id);
         ref.get().then((doc) => {
           //console.log(doc.data().created_at.toDate().toDateString());

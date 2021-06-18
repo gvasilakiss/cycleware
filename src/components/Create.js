@@ -164,7 +164,7 @@ class Create extends Component {
           <div className="panel panel-default">
             <div className="panel-heading">
               <h2 className="text-center">Cycleware🚴‍♂️ - See it, report it. </h2>
-              <hr class="my-4" />
+              <hr className="my-4" />
               <div className="d-flex">
 
                 <div className="ml-auto p-2">
