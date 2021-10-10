@@ -112,7 +112,7 @@ export default class App extends Component {
             <div className="container">
                 <div className="panel panel-default">
                     <div className="panel-heading">
-                        <h2 className="text-center">Cycleware🚴‍♂️ - See it, report it. </h2>
+                        <h2 className="text-center">Barbour Canteen 🍔</h2>
                         <hr class="my-4" />
                         <div className="d-flex">
                             <h5 className="text-center">Welcome back, <span id="user"> {this.user.displayName}</span></h5>
@@ -124,14 +124,14 @@ export default class App extends Component {
                         <div>
 
                         </div>
-                        <h2 className="panel-title text-center">Cycleway Reported Issues🚧</h2>
+                        {/* <h2 className="panel-title text-center">Cycleway Reported Issues🚧</h2> */}
                     </div>
                     <div className="panel-body">
                         <div className="btn-group mr-2" role="group" aria-label="Third group">
-                            <h4><Link to="/create" className="btn btn-primary">Report new issue</Link></h4>
+                            <h4><Link to="/create" className="btn btn-primary">Place New Order</Link></h4>
                         </div>
                         <div className="btn-group" role="group" aria-label="Third group">
-                            <h4><button onClick={this.getUpdate} className="btn btn-warning">Check log status</button></h4>
+                            {/* <h4><button onClick={this.getUpdate} className="btn btn-warning">Check log status</button></h4> */}
                         </div>
                         <table className="table table-striped table-hover">
                             <thead className="thead-dark">

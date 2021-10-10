@@ -62,7 +62,7 @@ class Create extends Component {
     if (issue.length === 0) {
       swal({
         title: "Missing Input✍",
-        text: "You need to select an valid issue⚒",
+        text: "You need to select a valid item ⚒",
         icon: "warning",
         timer: 2000,
         button: false
@@ -163,7 +163,7 @@ class Create extends Component {
         <div className="container">
           <div className="panel panel-default">
             <div className="panel-heading">
-              <h2 className="text-center">Cycleware🚴‍♂️ - See it, report it. </h2>
+              <h2 className="text-center">Barbour Canteen 🍔</h2>
               <hr className="my-4" />
               <div className="d-flex">
 
@@ -172,12 +172,12 @@ class Create extends Component {
                 </div>
               </div>
               <h3 className="panel-title">
-                Log New Issue
-            </h3>
+                Place Order
+              </h3>
             </div>
             <div className="panel-body">
               <div className="btn-group" role="group" aria-label="Third group">
-                <h4><button onClick={this.getUpdate} className="btn btn-warning">Check log status</button></h4>
+                {/* <h4><button onClick={this.getUpdate} className="btn btn-warning">Check log status</button></h4> */}
               </div>
               <form onSubmit={this.onSubmit}>
                 <div className="form-group">
@@ -185,12 +185,20 @@ class Create extends Component {
                   <input type="text" className="form-control" name="name" value={name} onChange={this.onChange} placeholder="Elon Musk👽" required />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="title">Description of the issue:</label>
-                  <input type="text" className="form-control" name="desc" value={desc} onChange={this.onChange} placeholder="Doge to the Moon🚀" required />
+                  <label htmlFor="order_type">Breakfast🥐 or Lunch🍕 </label>
+                  <select className="form-control" name="order_type" value={this.state.value} onChange={this.onChange} required>
+                    <option value="">Select an item</option>
+                    <option value="Breakfast">Breakfast</option>
+                    <option value="Lunch">Lunch</option>
+                  </select>
                 </div>
                 <div className="form-group">
-                  <label htmlFor="location">Issue Location</label>
-                  <input type="text" className="form-control" name="location" value={location} onChange={this.onChange} placeholder="Enter location🌍" required />
+                  <label htmlFor="location">Location</label>
+                  <select name="location" className="form-control" required value={this.state.value} onChange={this.onChange} >
+
+                    <option value="Barbour-House">Barbour House</option>
+                    <option value="Barbour-Unit21">Barbour Unit21</option>
+                  </select>
                 </div>
                 <div className="form-group">
                   <label htmlFor="issue">Issue:</label>
